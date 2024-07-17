@@ -2,7 +2,7 @@ local CoreGui = game:GetService("CoreGui")
 local UserInput = game:GetService("UserInputService")
 local HttpService = game:GetService("HttpService")
 
-local Interface = import("rbxassetid://11389137937")
+local Interface = import("ui/interface.rbxm")
 
 if oh.Cache["ui/main"] then
 	return Interface
@@ -28,9 +28,9 @@ xpcall(function()
 end, function(err)
 	local message
 	if err:find("valid member") then
-		message = "The UI has updated, please rejoin and restart. If you get this message more than once, screenshot this message and report it in the Hydroxide server.\n\n" .. err
+		message = "The UI has updated, please rejoin and restart. If you get this message more than once, screenshot this message and report it in the Helium server.\n\n" .. err
 	else
-		message = "Report this error in Hydroxide's server:\n\n" .. err
+		message = "Report this error in Helium's server:\n\n" .. err
 	end
 
 	MessageBox.Show("An error has occurred", message, MessageType.OK, function()

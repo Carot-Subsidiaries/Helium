@@ -80,7 +80,7 @@ nmcTrampoline = hookMetaMethod(game, "__namecall", function(...)
 
         if eventSet and (not remoteIgnored and not argsIgnored) then
             local call = {
-                script = getCallingScript((PROTOSMASHER_LOADED ~= nil and 2) or nil),
+                script = getCallingScript(nil),
                 args = vargs,
                 func = getInfo(3).func
             }
@@ -133,7 +133,7 @@ for _name, hook in pairs(methodHooks) do
             
             if eventSet and (not remoteIgnored and not argsIgnored) then
                 local call = {
-                    script = getCallingScript((PROTOSMASHER_LOADED ~= nil and 2) or nil),
+                    script = getCallingScript(nil),
                     args = vargs,
                     func = getInfo(3).func
                 }

@@ -4,14 +4,14 @@ local owner = "Upbolt"
 local branch = "revision"
 
 local function webImport(file)
-    return loadstring(game:HttpGetAsync(("https://raw.githubusercontent.com/%s/Hydroxide/%s/%s.lua"):format(owner, branch, file)), file .. '.lua')()
+    return loadstring(game:HttpGetAsync(("https://raw.githubusercontent.com/%s/Helium/%s/%s.lua"):format(owner, branch, file)), file .. '.lua')()
 end
 
 webImport("init")
 webImport("ui/main")
 ```
 
-# Hydroxide
+# Helium
 <i>Lua runtime introspection and network capturing tool for games on the Roblox engine.</i>
 
 ~~Report issues to our Discord server: https://discord.gg/DJxBwAX~~
@@ -19,9 +19,9 @@ webImport("ui/main")
 <ins>New Discord server will be established when the next major release is ready for use</ins>
 
 <p align="center">
-    <img src="https://cdn.discordapp.com/attachments/633472429917995038/722143730500501534/Hydroxide_Logo.png"/>
+    <img src="https://cdn.discordapp.com/attachments/633472429917995038/722143730500501534/Helium_Logo.png"/>
     </br>
-    <img src="https://raw.githubusercontent.com/Upbolt/Hydroxide/revision/github-assets/ui.png" width="677px"/>
+    <img src="https://raw.githubusercontent.com/Upbolt/Helium/revision/github-assets/ui.png" width="677px"/>
 </p>
 
 ## Features

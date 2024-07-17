@@ -27,10 +27,6 @@ local function useMethods(module)
     end
 end
 
-if Window and PROTOSMASHER_LOADED then
-    getgenv().get_script_function = nil
-end
-
 local globalMethods = {
     checkCaller = checkcaller,
     newCClosure = newcclosure,
@@ -62,7 +58,7 @@ local globalMethods = {
     setReadOnly = setreadonly or (make_writeable and function(table, readonly) if readonly then make_readonly(table) else make_writeable(table) end end),
     isLClosure = islclosure or is_l_closure or (iscclosure and function(closure) return not iscclosure(closure) end),
     isReadOnly = isreadonly or is_readonly,
-    isXClosure = is_synapse_function or issentinelclosure or is_protosmasher_closure or is_sirhurt_closure or iselectronfunction or istempleclosure or checkclosure,
+    isXClosure = isexecutorclosure,
     hookMetaMethod = hookmetamethod or (hookfunction and function(object, method, hook) return hookfunction(getMetatable(object)[method], hook) end),
     readFile = readfile,
     writeFile = writefile,
@@ -70,12 +66,6 @@ local globalMethods = {
     isFolder = isfolder,
     isFile = isfile,
 }
-
-if PROTOSMASHER_LOADED then
-    globalMethods.getConstant = function(closure, index)
-        return globalMethods.getConstants(closure)[index]
-    end
-end
 
 local oldGetUpvalue = globalMethods.getUpvalue
 local oldGetUpvalues = globalMethods.getUpvalues
@@ -142,8 +132,8 @@ environment.oh = {
             end
         end
 
-        local ui = importCache["rbxassetid://11389137937"]
-        local assets = importCache["rbxassetid://5042114982"]
+        local ui = importCache["ui/interface.rbxm"]
+        local assets = importCache["ui/assets.rbxm"]
 
         if ui then
             unpack(ui):Destroy()
@@ -161,7 +151,7 @@ if getConnections then
         local conn = getrawmetatable(connection)
         local old = conn and conn.__index
         
-        if PROTOSMASHER_LOADED ~= nil then setwriteable(conn) else setReadOnly(conn, false) end
+        setReadOnly(conn, false)
         
         if old then
             conn.__index = newcclosure(function(t, k)
@@ -172,20 +162,15 @@ if getConnections then
             end)
         end
 
-        if PROTOSMASHER_LOADED ~= nil then
-            setReadOnly(conn)
-            connection:Disconnect()
-        else
-            setReadOnly(conn, true)
-            connection:Disable()
-        end
+        setReadOnly(conn, true)
+        connection:Disable()
     end
 end
 
 useMethods(globalMethods)
 
 local HttpService = game:GetService("HttpService")
-local releaseInfo = HttpService:JSONDecode(game:HttpGetAsync("https://api.github.com/repos/" .. user .. "/Hydroxide/releases"))[1]
+local releaseInfo = HttpService:JSONDecode(game:HttpGetAsync("https://api.github.com/repos/" .. user .. "/Helium/releases"))[1]
 
 if readFile and writeFile then
     local hasFolderFunctions = (isFolder and makeFolder) ~= nil
@@ -199,15 +184,15 @@ if readFile and writeFile then
                 end
             end
 
-            createFolder("hydroxide")
-            createFolder("hydroxide/user")
-            createFolder("hydroxide/user/" .. user)
-            createFolder("hydroxide/user/" .. user .. "/methods")
-            createFolder("hydroxide/user/" .. user .. "/modules")
-            createFolder("hydroxide/user/" .. user .. "/objects")
-            createFolder("hydroxide/user/" .. user .. "/ui")
-            createFolder("hydroxide/user/" .. user .. "/ui/controls")
-            createFolder("hydroxide/user/" .. user .. "/ui/modules")
+            createFolder("helium")
+            createFolder("helium/user")
+            createFolder("helium/user/" .. user)
+            createFolder("helium/user/" .. user .. "/methods")
+            createFolder("helium/user/" .. user .. "/modules")
+            createFolder("helium/user/" .. user .. "/objects")
+            createFolder("helium/user/" .. user .. "/ui")
+            createFolder("helium/user/" .. user .. "/ui/controls")
+            createFolder("helium/user/" .. user .. "/ui/modules")
         end
 
         function environment.import(asset)
@@ -219,19 +204,21 @@ if readFile and writeFile then
 
             if asset:find("rbxassetid://") then
                 assets = { game:GetObjects(asset)[1] }
+            elseif asset:find(".rbxm") then
+                assets = { game:GetObjects(getcustomasset("helium/user/" .. user .. '/' .. asset))[1] }
             elseif web then
                 if readFile and writeFile then
-                    local file = (hasFolderFunctions and "hydroxide/user/" .. user .. '/' .. asset .. ".lua") or ("hydroxide-" .. user .. '-' .. asset:gsub('/', '-') .. ".lua")
+                    local file = (hasFolderFunctions and "helium/user/" .. user .. '/' .. asset .. ".lua") or ("helium-" .. user .. '-' .. asset:gsub('/', '-') .. ".lua")
                     local content
 
                     if (isFile and not isFile(file)) or not importCache[asset] then
-                        content = game:HttpGetAsync("https://raw.githubusercontent.com/" .. user .. "/Hydroxide/" .. branch .. '/' .. asset .. ".lua")
+                        content = game:HttpGetAsync("https://raw.githubusercontent.com/" .. user .. "/Helium/" .. branch .. '/' .. asset .. ".lua")
                         writeFile(file, content)
                     else
                         local ran, result = pcall(readFile, file)
 
                         if (not ran) or not importCache[asset] then
-                            content = game:HttpGetAsync("https://raw.githubusercontent.com/" .. user .. "/Hydroxide/" .. branch .. '/' .. asset .. ".lua")
+                            content = game:HttpGetAsync("https://raw.githubusercontent.com/" .. user .. "/Helium/" .. branch .. '/' .. asset .. ".lua")
                             writeFile(file, content)
                         else
                             content = result
@@ -240,10 +227,10 @@ if readFile and writeFile then
 
                     assets = { loadstring(content, asset .. '.lua')() }
                 else
-                    assets = { loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/" .. user .. "/Hydroxide/" .. branch .. '/' .. asset .. ".lua"), asset .. '.lua')() }
+                    assets = { loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/" .. user .. "/Helium/" .. branch .. '/' .. asset .. ".lua"), asset .. '.lua')() }
                 end
             else
-                assets = { loadstring(readFile("hydroxide/" .. asset .. ".lua"), asset .. '.lua')() }
+                assets = { loadstring(readFile("helium/" .. asset .. ".lua"), asset .. '.lua')() }
             end
 
             importCache[asset] = assets
@@ -259,13 +246,15 @@ if readFile and writeFile then
 
             if asset:find("rbxassetid://") then
                 assets = { game:GetObjects(asset)[1] }
+            elseif asset:find(".rbxm") then
+                assets = { game:GetObjects(getcustomasset("helium/user/" .. user .. '/' .. asset))[1] }
             elseif web then
-                local file = (hasFolderFunctions and "hydroxide/user/" .. user .. '/' .. asset .. ".lua") or ("hydroxide-" .. user .. '-' .. asset:gsub('/', '-') .. ".lua")
+                local file = (hasFolderFunctions and "helium/user/" .. user .. '/' .. asset .. ".lua") or ("helium-" .. user .. '-' .. asset:gsub('/', '-') .. ".lua")
                 local ran, result = pcall(readFile, file)
                 local content
 
                 if not ran then
-                    content = game:HttpGetAsync("https://raw.githubusercontent.com/" .. user .. "/Hydroxide/" .. branch .. '/' .. asset .. ".lua")
+                    content = game:HttpGetAsync("https://raw.githubusercontent.com/" .. user .. "/Helium/" .. branch .. '/' .. asset .. ".lua")
                     writeFile(file, content)
                 else
                     content = result
@@ -273,7 +262,7 @@ if readFile and writeFile then
 
                 assets = { loadstring(content, asset .. '.lua')() }
             else
-                assets = { loadstring(readFile("hydroxide/" .. asset .. ".lua"), asset .. '.lua')() }
+                assets = { loadstring(readFile("helium/" .. asset .. ".lua"), asset .. '.lua')() }
             end
 
             importCache[asset] = assets

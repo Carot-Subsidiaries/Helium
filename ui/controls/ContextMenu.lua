@@ -1,5 +1,5 @@
-local Assets = import("rbxassetid://5042114982").Controls
-local Storage = import("rbxassetid://11389137937").ContextMenus
+local Assets = import("ui/assets.rbxm").Controls
+local Storage = import("ui/interface.rbxm").ContextMenus
 
 local Players = game:GetService("Players")
 local UserInput = game:GetService("UserInputService")
