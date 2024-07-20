@@ -1,4 +1,4 @@
-local Prompts = import("ui/interface.rbxm").Base.Prompts
+local Prompts = import("rbxassetid://11389137937").Base.Prompts
 
 local Prompt = {}
 local currentPrompt
