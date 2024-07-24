@@ -21,11 +21,19 @@ local function scan(query)
             if typeof(script) == "Instance" and 
                 not scripts[script] and 
                 script:IsA("LocalScript") and 
-                script.Name:lower():find(query) and
-                getScriptClosure(script) and
-                pcall(function() getsenv(script) end)
-            then
-                scripts[script] = LocalScript.new(script)
+                script.Name:lower():find(query) then
+
+                local success, closure = pcall(getScriptClosure, script)
+                if success and closure then
+                    local senvSuccess = pcall(function() getsenv(script) end)
+                    if senvSuccess then
+                        scripts[script] = LocalScript.new(script)
+                    else
+                        print("Error getting script environment for:", script)
+                    end
+                else
+                    print("Error in getScriptClosure:", closure)
+                end
             end
         end
     end
