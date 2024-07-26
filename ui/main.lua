@@ -35,7 +35,7 @@ end, function(err)
 
 	MessageBox.Show("An error has occurred", message, MessageType.OK, function()
 		-- Interface:Destroy() 
-		print("An error has occurred: " .. err)
+		print("An error has occurred: " .. err) -- credits: https://github.com/Upbolt/Hydroxide/pull/113/files#diff-3fc261835ae3915d35640462bbc6b7eb37c4577b261b7680bdf3eb01b8e0ffd5
 	end)
 end)
 

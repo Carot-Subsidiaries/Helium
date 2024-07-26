@@ -33,7 +33,7 @@ local function scan(query)
                     end
                 else
                     print("Error in getScriptClosure:", closure)
-                end
+                end -- credits: https://github.com/Upbolt/Hydroxide/pull/113/files#diff-fdb06651dc12a762a77d8758e1494b15f3f9c2a6838852acf22f5719213d1fc4
             end
         end
     end
