@@ -132,8 +132,8 @@ environment.oh = {
             end
         end
 
-        local ui = importCache["rbxassetid://11389137937"]
-        local assets = importCache["rbxassetid://5042114982"]
+        local ui = importCache["rbxassetid://18694248834"]
+        local assets = importCache["rbxassetid://18694238063"]
 
         if ui then
             unpack(ui):Destroy()
@@ -204,8 +204,6 @@ if readFile and writeFile then
 
             if asset:find("rbxassetid://") then
                 assets = { game:GetObjects(asset)[1] }
-            elseif asset:find(".rbxm") then
-                assets = { game:GetObjects(getcustomasset("helium/user/" .. user .. '/' .. asset))[1] }
             elseif web then
                 if readFile and writeFile then
                     local file = (hasFolderFunctions and "helium/user/" .. user .. '/' .. asset .. ".lua") or ("helium-" .. user .. '-' .. asset:gsub('/', '-') .. ".lua")
@@ -246,8 +244,6 @@ if readFile and writeFile then
 
             if asset:find("rbxassetid://") then
                 assets = { game:GetObjects(asset)[1] }
-            elseif asset:find(".rbxm") then
-                assets = { game:GetObjects(getcustomasset("helium/user/" .. user .. '/' .. asset))[1] }
             elseif web then
                 local file = (hasFolderFunctions and "helium/user/" .. user .. '/' .. asset .. ".lua") or ("helium-" .. user .. '-' .. asset:gsub('/', '-') .. ".lua")
                 local ran, result = pcall(readFile, file)
