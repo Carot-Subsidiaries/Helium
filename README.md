@@ -1,5 +1,5 @@
 ## Script
-```lua
+```luau
 local owner = "Carot-Subsidiaries"
 local branch = "revision"
 
