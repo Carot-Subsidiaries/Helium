@@ -46,7 +46,14 @@ webImport("ui/main")
     * Log calls of closures
     * View general information of closures (location, protos, constants, etc.)
 
-More to come, soon.
+### Planned
+* RequestSpy
+    * Log calls of requests (request, http.request, game:HttpGet, etc.)
+    * View general information of requests (url, headers, body, etc.)
+    * Ignore/Block calls based on parameters passed
+* Attribute Scanner
+    * View/Modify Attribytes
+    * See latest changes and where the change was called from?
 
 ## Images/Videos
 <p align="center">
