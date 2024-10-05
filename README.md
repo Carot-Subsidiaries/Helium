@@ -52,7 +52,7 @@ webImport("ui/main")
     * View general information of requests (url, headers, body, etc.)
     * Ignore/Block calls based on parameters passed
 * Attribute Scanner
-    * View/Modify Attribytes
+    * View/Modify Attributes
     * See latest changes and where the change was called from?
 
 ## Images/Videos
