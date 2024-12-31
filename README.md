@@ -39,7 +39,7 @@ webImport("ui/main")
     * View general information of modules (return value, source, protos, constants, etc.)
     * Retrieve all protos found in GC
 * RemoteSpy
-    * Log calls of remote objects (RemoteEvent, RemoteFunction, BindableEvent, BindableFunction)
+    * Log calls of remote objects (RemoteEvent, RemoteFunction, BindableEvent, BindableFunction, and now also UnreliableRemoteEvent)
     * Ignore/Block calls based on parameters passed
     * Traceback calling function/closure
 * ClosureSpy
